@@ -110,7 +110,7 @@ public class StepDataProcessor extends AbstractProcessor {
             }
             out.println("    public static class " + simpleBuilderClassName + " {");
             out.println("        private " + classInterfaceName + " build() {");
-            out.println("            return Tasks.instrumented(" + simpleClassName + ".class, " + params + ");");
+            out.println("            return Tasks.instrumented(" + extendSimpleClassName + ".class, " + params + ");");
             out.println("        }");
 
             for(int i=0; i < methodList.size(); i++) {
