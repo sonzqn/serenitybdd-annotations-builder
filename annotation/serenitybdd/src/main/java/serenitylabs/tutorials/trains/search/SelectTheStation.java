@@ -12,7 +12,7 @@ import net.thucydides.core.annotations.Step;
 import static com.serenity.annotation.processor.StepOrder.First;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
-class SelectTheStation implements Interaction {
+class SelectTheStation extends SelectTheStationBuilder implements Interaction {
     @StepData(value = "called", order = First)
     String stationName;
     @StepData( "in")

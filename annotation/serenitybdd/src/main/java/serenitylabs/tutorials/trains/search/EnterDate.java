@@ -11,7 +11,7 @@ import net.thucydides.core.annotations.Step;
 import static com.serenity.annotation.processor.StepOrder.*;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 
-class EnterDate implements Interaction {
+class EnterDate extends EnterDateBuilder implements Interaction {
     @StepData(value = "of", order = First)
     DepartureDay departureDay;
     @StepData("into")

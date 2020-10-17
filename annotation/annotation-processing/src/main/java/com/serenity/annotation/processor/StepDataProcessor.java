@@ -64,11 +64,11 @@ public class StepDataProcessor extends AbstractProcessor {
         }
 
         String simpleClassName = className.substring(lastDot + 1);
-        String simpleBuilderClassName = "Builder";
-        String extendClassName = className + "Ex";
-        String extendSimpleClassName = extendClassName.substring(lastDot + 1);
+        String simpleBuilderClassName = "BuilderImp";
+        String superClassName = className + "Builder";
+        String extendSimpleClassName = "_" + simpleClassName;
 
-        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(extendClassName);
+        JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(superClassName);
         try (PrintWriter out = new PrintWriter(builderFile.openWriter())) {
 
             List<String> methodList = new ArrayList<>();
@@ -93,6 +93,14 @@ public class StepDataProcessor extends AbstractProcessor {
 
             out.println("import net.serenitybdd.screenplay.Tasks;");
             out.println();
+            out.println("class " + simpleClassName + "Builder {");
+            out.println("    public static class Builder extends " + extendSimpleClassName + ".BuilderImp {}");
+            if(!isGetBuilder) {
+                out.println("    public static Builder " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
+                out.println("        return (Builder)(new Builder()." + methodList.get(0) + "(" + paramList.get(0) + "));");
+                out.println("    }");
+            }
+            out.println("}");
 
             out.println("class " + extendSimpleClassName + " extends " + simpleClassName + " {");
             out.println("    public " + extendSimpleClassName + "(" + typeParams + ") {");
@@ -103,11 +111,7 @@ public class StepDataProcessor extends AbstractProcessor {
                 out.println(";");
             }
             out.println("    }");
-            if(!isGetBuilder) {
-                out.println("    public static " + simpleBuilderClassName + " " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
-                out.println("        return new " + simpleBuilderClassName + "(" + paramList.get(0) + ");");
-                out.println("    }");
-            }
+
             out.println("    public static class " + simpleBuilderClassName + " {");
             out.println("        private " + classInterfaceName + " build() {");
             out.println("            return Tasks.instrumented(" + extendSimpleClassName + ".class, " + params + ");");
@@ -117,13 +121,10 @@ public class StepDataProcessor extends AbstractProcessor {
                 out.println("        private " + typeList.get(i) + " " + paramList.get(i) + ";");
                 String returnType = simpleBuilderClassName;
                 String returnCode = "this";
-                String methodName = "";
-                if(i > 0 || isGetBuilder) {
-                    methodName = " " + methodList.get(i);
-                    if(i==methodList.size()-1) {
-                        returnType = classInterfaceName;
-                        returnCode = "build()";
-                    }
+                String methodName = " " + methodList.get(i);
+                if(i==methodList.size()-1) {
+                    returnType = classInterfaceName;
+                    returnCode = "build()";
                 }
                 out.println("        public " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
                 out.println("            this." + paramList.get(i) + " = " + paramList.get(i) + ";");

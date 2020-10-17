@@ -7,7 +7,7 @@ import net.thucydides.core.annotations.Step;
 
 import static com.serenity.annotation.processor.StepOrder.First;
 
-public class SelectItinerary implements Task {
+public class SelectItinerary extends SelectItineraryBuilder implements Task {
     @StepData(value = "from", order = First)
     String origin;
     @StepData("to")
@@ -17,8 +17,8 @@ public class SelectItinerary implements Task {
     @Step("{0} selects an itinerary from #origin to #destination")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                SelectTheStationEx.called(origin).in(JourneyDetails.ORIGIN),
-                SelectTheStationEx.called(destination).in(JourneyDetails.DESTINATION)
+                SelectTheStation.called(origin).in(JourneyDetails.ORIGIN),
+                SelectTheStation.called(destination).in(JourneyDetails.DESTINATION)
         );
     }
 }

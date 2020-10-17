@@ -1,11 +1,11 @@
 package serenitylabs.tutorials.trains.navigation;
 
 public enum Section {
-    BuyTickets("https://buytickets.southwesttrains.co.uk/journey"),
+    BuyTickets("https://www.cheapoair.com/"),
 
-    BuySeasonTickets("https://buytickets.southwesttrains.co.uk/season"),
+    BuySeasonTickets("https://www.cheapoair.com/"),
 
-    LiveTravelUpdates("https://www.journeycheck.southwesttrains.co.uk");
+    LiveTravelUpdates("https://www.cheapoair.com/");
 
     private final String url;
 

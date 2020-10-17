@@ -10,7 +10,7 @@ import net.thucydides.core.annotations.Step;
 import static com.serenity.annotation.processor.StepOrder.*;
 
 @GetBuilder
-public class FindSeasonTickets implements Task {
+public class FindSeasonTickets extends FindSeasonTicketsBuilder implements Task {
     @StepData(value = "ofDuration", order = First)
     SeasonTicketDuration duration;
     @StepData("from")
@@ -22,7 +22,7 @@ public class FindSeasonTickets implements Task {
     @Step("{0} looks for a one-way ticket from #origin to #destination #departureDay")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                SelectItineraryEx.from(origin).to(destination),
+                SelectItinerary.from(origin).to(destination),
                 Click.on(JourneyDetails.SEASON_TICKET_TYPE.of(duration.name())),
                 Click.on(JourneyDetails.BUY_TICKETS_BUTTON)
         );

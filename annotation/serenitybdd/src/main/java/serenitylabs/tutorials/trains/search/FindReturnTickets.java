@@ -9,7 +9,7 @@ import net.serenitybdd.screenplay.actions.Click;
 import static com.serenity.annotation.processor.StepOrder.*;
 
 @GetBuilder
-public class FindReturnTickets implements Task {
+public class FindReturnTickets extends FindReturnTicketsBuilder implements Task {
     @StepData(value = "from", order = First)
     String origin;
     @StepData("to")
@@ -22,12 +22,12 @@ public class FindReturnTickets implements Task {
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                SelectItineraryEx.from(origin).to(destination),
+                SelectItinerary.from(origin).to(destination),
 
-                EnterDateEx.of(departureDay).into(JourneyDetails.LEAVING_DATE),
+                EnterDate.of(departureDay).into(JourneyDetails.LEAVING_DATE),
 
                 Click.on(JourneyDetails.RETURN_TRIP),
-                EnterDateEx.of(departureDay.plus(returningAfterDayCount))
+                EnterDate.of(departureDay.plus(returningAfterDayCount))
                         .into(JourneyDetails.RETURN_DATE),
 
                 Click.on(JourneyDetails.BUY_TICKETS_BUTTON)
