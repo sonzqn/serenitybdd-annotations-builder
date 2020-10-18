@@ -85,9 +85,7 @@ public class StepDataProcessor extends AbstractProcessor {
             String typeParams = String.join(", ", typeParamList);
 
             if (packageName != null) {
-                out.print("package ");
-                out.print(packageName);
-                out.println(";");
+                out.println("package " + packageName + ";");
                 out.println();
             }
 
@@ -96,29 +94,28 @@ public class StepDataProcessor extends AbstractProcessor {
             out.println("class " + simpleClassName + "Builder {");
             out.println("    public static class Builder extends " + extendSimpleClassName + ".BuilderImp {}");
             if(!isGetBuilder) {
-                out.println("    public static Builder " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
+                out.println("    protected static Builder " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
                 out.println("        return (Builder)(new Builder()." + methodList.get(0) + "(" + paramList.get(0) + "));");
                 out.println("    }");
             }
-            out.println("}");
 
-            out.println("class " + extendSimpleClassName + " extends " + simpleClassName + " {");
-            out.println("    public " + extendSimpleClassName + "(" + typeParams + ") {");
+            out.println("    private static class " + extendSimpleClassName + " extends " + simpleClassName + " {");
+            out.println("        protected " + extendSimpleClassName + "(" + typeParams + ") {");
             for (List<String> setter : listSetter) {
-                out.print("        this." + setter.get(2));
+                out.print("            this." + setter.get(2));
                 out.print(" = ");
                 out.print(setter.get(2));
                 out.println(";");
             }
-            out.println("    }");
-
-            out.println("    public static class " + simpleBuilderClassName + " {");
-            out.println("        private " + classInterfaceName + " build() {");
-            out.println("            return Tasks.instrumented(" + extendSimpleClassName + ".class, " + params + ");");
             out.println("        }");
 
+            out.println("        public static class " + simpleBuilderClassName + " {");
+            out.println("            private " + classInterfaceName + " build() {");
+            out.println("                return Tasks.instrumented(" + extendSimpleClassName + ".class, " + params + ");");
+            out.println("            }");
+
             for(int i=0; i < methodList.size(); i++) {
-                out.println("        private " + typeList.get(i) + " " + paramList.get(i) + ";");
+                out.println("            private " + typeList.get(i) + " " + paramList.get(i) + ";");
                 String returnType = simpleBuilderClassName;
                 String returnCode = "this";
                 String methodName = " " + methodList.get(i);
@@ -126,12 +123,13 @@ public class StepDataProcessor extends AbstractProcessor {
                     returnType = classInterfaceName;
                     returnCode = "build()";
                 }
-                out.println("        public " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
-                out.println("            this." + paramList.get(i) + " = " + paramList.get(i) + ";");
+                out.println("            public " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
+                out.println("                this." + paramList.get(i) + " = " + paramList.get(i) + ";");
                 if(!methodName.isEmpty())
-                out.println("            return " + returnCode + ";");
-                out.println("        }");
+                out.println("                return " + returnCode + ";");
+                out.println("            }");
             }
+            out.println("        }");
             out.println("    }");
             out.println("}");
         }
