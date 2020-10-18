@@ -110,7 +110,7 @@ public class StepDataProcessor extends AbstractProcessor {
             out.println("        }");
 
             out.println("        public static class " + simpleBuilderClassName + " {");
-            out.println("            private " + classInterfaceName + " build() {");
+            out.println("            protected final " + classInterfaceName + " nextStep() {");
             out.println("                return Tasks.instrumented(" + extendSimpleClassName + ".class, " + params + ");");
             out.println("            }");
 
@@ -121,7 +121,7 @@ public class StepDataProcessor extends AbstractProcessor {
                 String methodName = " " + methodList.get(i);
                 if(i==methodList.size()-1) {
                     returnType = classInterfaceName;
-                    returnCode = "build()";
+                    returnCode = "nextStep()";
                 }
                 out.println("            public final " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
                 out.println("                this." + paramList.get(i) + " = " + paramList.get(i) + ";");

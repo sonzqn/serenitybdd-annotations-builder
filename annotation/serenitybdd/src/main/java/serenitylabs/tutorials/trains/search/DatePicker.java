@@ -1,7 +1,6 @@
 package serenitylabs.tutorials.trains.search;
 
 import net.serenitybdd.screenplay.targets.Target;
-import org.openqa.selenium.By;
 
 class DatePicker {
     static Target DAY = Target.the("departure day")
