@@ -1,12 +1,13 @@
 package serenitylabs.tutorials.trains.search;
 
 import net.serenitybdd.screenplay.targets.Target;
+import org.openqa.selenium.By;
 
 class DatePicker {
     static Target DAY = Target.the("departure day")
-                              .locatedBy("(//*[@data-pika-day='{0}'])[2]");
-    static final Target DATE_SELECTION_DONE = Target.the("date selection done button")
-                                                    .locatedBy("(//button[.='Done'])[2]");
+                              .locatedBy("//a[contains(@aria-label,'{0}')]");//sample input date data '30 October 2020'
+    static final Target DATE_SELECTION_CLOSE = Target.the("date selection close button")
+                                                    .locatedBy("//a[@id='closeCalendar']");
 
 }
 

@@ -87,15 +87,15 @@ public class BuyTicketsStepDefinitions {
         );
     }
 
-    @Then("^s?he should be shown the cheapest (.*) ticket price from (.*) to (.*)")
+    @Then("^s?he should be shown the (.*) ticket price from (.*) to (.*)")
     public void she_should_be_shown_the_cheapest_ticket_price(String ticketType,
                                                               String expectedOrigin,
                                                               String expectedDestination) throws Throwable {
         theActorInTheSpotlight().should(
+                seeThat("Promo title", TheAvailableJourneys.ticketType(), equalToIgnoringCase(ticketType)),
                 seeThat("Cheapest price", TheAvailableJourneys.lowestPrice(), isPresent()),
-                seeThat("Ticket type", TheAvailableJourneys.ticketType(), equalToIgnoringCase(ticketType)),
-                seeThat("Origin station", TheAvailableJourneys.origin(), equalToIgnoringCase(expectedOrigin)),
-                seeThat("Destination station", TheAvailableJourneys.destination(), equalToIgnoringCase(expectedDestination))
+                seeThat("Origin station", TheAvailableJourneys.origin(), containsString(expectedOrigin)),
+                seeThat("Destination station", TheAvailableJourneys.destination(), containsString(expectedDestination))
         );
     }
 

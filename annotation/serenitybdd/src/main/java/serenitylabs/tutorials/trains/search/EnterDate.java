@@ -21,10 +21,10 @@ class EnterDate extends EnterDateBuilder implements Interaction {
     @Step("{0} selects day #departureDay")
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Click.on(dateField),
-                WaitUntil.the(DatePicker.DATE_SELECTION_DONE, isVisible()),
-                Click.on(DatePicker.DAY.of(departureDay.getDepartureDay())),
-                Click.on(DatePicker.DATE_SELECTION_DONE)
+                //Click.on(dateField),
+                WaitUntil.the(DatePicker.DATE_SELECTION_CLOSE, isVisible()),
+                Click.on(DatePicker.DAY.of(departureDay.getDepartureDay()))
+                //Click.on(DatePicker.DATE_SELECTION_CLOSE)
         );
     }
 }
