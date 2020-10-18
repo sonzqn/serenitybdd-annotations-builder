@@ -92,9 +92,9 @@ public class StepDataProcessor extends AbstractProcessor {
             out.println("import net.serenitybdd.screenplay.Tasks;");
             out.println();
             out.println("class " + simpleClassName + "Builder {");
-            out.println("    public static class Builder extends " + extendSimpleClassName + ".BuilderImp {}");
+            out.println("    public static final class Builder extends " + extendSimpleClassName + ".BuilderImp {}");
             if(!isGetBuilder) {
-                out.println("    protected static Builder " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
+                out.println("    protected static final Builder " + methodList.get(0) + "(" + typeList.get(0) + " " + paramList.get(0) + ") {");
                 out.println("        return (Builder)(new Builder()." + methodList.get(0) + "(" + paramList.get(0) + "));");
                 out.println("    }");
             }
@@ -123,7 +123,7 @@ public class StepDataProcessor extends AbstractProcessor {
                     returnType = classInterfaceName;
                     returnCode = "build()";
                 }
-                out.println("            public " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
+                out.println("            public final " + returnType + methodName + "(" + typeList.get(i) + " " + paramList.get(i) + ") {");
                 out.println("                this." + paramList.get(i) + " = " + paramList.get(i) + ";");
                 if(!methodName.isEmpty())
                 out.println("                return " + returnCode + ";");
