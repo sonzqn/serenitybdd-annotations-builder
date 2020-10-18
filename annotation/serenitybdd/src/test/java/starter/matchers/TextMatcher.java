@@ -1,7 +1,7 @@
 package starter.matchers;
 
 public class TextMatcher {
-    private String text;
+    private final String text;
 
     public TextMatcher(String text) {
         this.text = text;

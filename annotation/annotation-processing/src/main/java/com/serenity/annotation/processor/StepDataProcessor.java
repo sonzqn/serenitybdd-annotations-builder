@@ -33,7 +33,7 @@ public class StepDataProcessor extends AbstractProcessor {
                 String className = ((TypeElement) setters.get(0).getEnclosingElement()).getQualifiedName().toString();
                 String classInterfaceName = ((TypeElement) setters.get(0).getEnclosingElement()).getInterfaces().get(0).toString();
 
-                setters = setters.stream().sorted(Comparator.comparing(setter -> setter.getAnnotation(StepData.class).order())).collect(Collectors.toList());;
+                setters = setters.stream().sorted(Comparator.comparing(setter -> setter.getAnnotation(StepData.class).order())).collect(Collectors.toList());
 
                 List<List<String>> listSetter = new ArrayList<>();
                 for (Element setter : setters) {
